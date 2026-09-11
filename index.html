@@ -61,6 +61,7 @@
   .nav-cta{
     display:flex;gap:10px;
   }
+  #nav-toggle{display:none;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--cream);border-radius:6px;width:44px;height:44px;padding:0;font-size:18px;line-height:1;-webkit-appearance:none;appearance:none}
   .btn{
     display:inline-flex;align-items:center;gap:8px;
     padding:11px 20px;border-radius:3px;
@@ -76,7 +77,9 @@
   .btn-outline:hover{border-color:var(--orange);color:var(--orange);}
   .btn-sm{padding:9px 14px;font-size:13px;}
   @media (max-width:760px){
-    nav.links{display:none;}
+    nav.links{display:flex;flex-direction:column;gap:12px;position:fixed;left:0;right:0;top:64px;background:linear-gradient(180deg,var(--bg-alt), rgba(10,9,8,0.98));padding:18px 22px;max-height:60vh;overflow:auto;transform:translateY(-10px);opacity:0;pointer-events:none;transition:all .22s ease;box-shadow:0 12px 40px rgba(0,0,0,.6);z-index:55;border-top:1px solid var(--line);backdrop-filter:blur(6px);}
+    body.nav-open nav.links{transform:translateY(0);opacity:1;pointer-events:auto}
+    #nav-toggle{display:inline-flex}
   }
 
   /* ---------- HERO ---------- */
@@ -150,7 +153,8 @@
   @media(max-width:760px){
     .nav-inner{flex-wrap:wrap;align-items:flex-start;padding:12px 18px}
     nav.links{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:8px}
-    nav.links a{padding:8px 0}
+    nav.links a{padding:8px 0;color:var(--cream);border-bottom:1px solid rgba(255,255,255,0.02);}
+    nav.links a:hover{color:var(--orange)}
     .hero{padding:56px 18px 46px}
     .hero-logo{width:110px;height:110px;margin-bottom:18px}
     .hero p.lede{font-size:15px}
@@ -244,6 +248,7 @@
       <a class="nav-disabled" href="#">Adiciones</a>
     </nav>
     <div class="nav-cta">
+      <button id="nav-toggle" class="btn btn-sm btn-outline" aria-label="Abrir menú">☰</button>
       <a class="btn btn-primary btn-sm" id="wa-nav" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
     </div>
   </div>
@@ -347,6 +352,18 @@
 <a class="float-ig" id="ig-float" href="#" target="_blank" rel="noopener" aria-label="Instagram">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm8 3.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
 </a>
+
+<script>
+  (function(){
+    const toggle = document.getElementById('nav-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', ()=> document.body.classList.toggle('nav-open'));
+    // close nav when clicking a link
+    document.querySelectorAll('nav.links a').forEach(a=> a.addEventListener('click', ()=> document.body.classList.remove('nav-open')));
+    // close on Escape
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.body.classList.remove('nav-open'); });
+  })();
+</script>
 
 <script>
   // ------- CONFIGURA AQUÍ TUS DATOS DE PEDIDO -------
